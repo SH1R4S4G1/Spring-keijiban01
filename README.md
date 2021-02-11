@@ -8,6 +8,7 @@ Spring Bootの掲示板です。
 
 Spring Boot 2 入門: 基礎から実演まで  原田 けいと
 https://www.amazon.co.jp/dp/B0893LQ5KY/ref=cm_sw_r_tw_dp_BHCVHJA80DG9MWWNEBC7
+
 Spring Boot 2 応用: REST x Swagger UI、MyBatisからAWSへのデプロイまで  原田 けいと
 https://www.amazon.co.jp/dp/B08RL67N9S/ref=cm_sw_r_tw_dp_0ND0Q2FHPPZK0SJXEWYR
 
