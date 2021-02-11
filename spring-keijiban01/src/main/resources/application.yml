@@ -1,0 +1,16 @@
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true
+  type-aliases-package: com.example.demo
+server:
+  port: 5000
+---
+spring:
+  config:
+    activate:
+      on-profile: dev
+  datasource:
+    initialization-mode: always
+    url: jdbc:h2:mem:testdb
+    username: admin
+    password: HEy4va3ZL3eRFant

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+  <meta charset="UTF-8">
+  <th:block th:insert="fragments/base :: header"></th:block>
+</head>
+<body id="page-top">
+  <!-- Page Wrapper -->
+  <div id="wrapper">
+    <th:block th:insert="fragments/sidebar :: sidebar"></th:block>
+
+    <!-- Main -->
+    <div id="content-wrapper" class="d-flex flex-column">
+      <div id="content">
+        <div class="container-fluid">
+
+          <!-- List -->
+          <div class="card shadow my-4">
+            <div class="card-header py-3">
+              <h6 class="m-0 font-weight-bold text-primary">
+                ユーザ一覧
+              </h6>
+            </div>
+            <div class="card-body">
+              <div class="table-responsive">
+                <table id="user-table" class="table table-bordered">
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>ユーザ名</th>
+                      <th:block sec:authorize="hasRole('ADMIN')"><th>Email</th></th:block>
+                      <th>権限</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr th:each="user : ${users}" th:object="${user}">
+                      <td th:text="*{id}"></td>
+                      <td th:text="*{username}"></td>
+                     <th:block sec:authorize="hasRole('ADMIN')"><td th:text="*{email}"></td></th:block>
+                      <td th:text="*{role}"></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          <!-- End of List -->
+
+     <th:block sec:authorize="hasRole('USER')">
+           <div class="text-center">
+             <p>詳細情報の表示および新規登録にはADMIN権限が必要です</p>
+          </div>
+	</th:block> 
+		
+
+      <th:block sec:authorize="hasRole('ADMIN')">
+           <div class="text-center">
+             <a th:href="@{/register}">新規登録はこちら</a>
+          </div>
+	</th:block> 
+
+
+        </div>
+      </div>
+    </div>
+    <!-- End of Main -->
+  </div>
+
+  <th:block th:insert="fragments/base :: scripts"></th:block>
+  <script th:src="@{/js/usertables.js}"></script>
+</body>
+</html>

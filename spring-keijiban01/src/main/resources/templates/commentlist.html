@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+ 	<th:block th:insert="fragments/base :: header"></th:block>
+</head>
+<body id="page-top">
+  <!-- Page Wrapper -->
+  <div id="wrapper">
+	<th:block th:insert="fragments/sidebar :: sidebar"></th:block>
+    
+    
+    <!-- Main -->
+	<div id="content-wrapper" class="d-flex flex-column">
+		<div id="content">
+			<div class="container-fluid">
+
+				<!-- List -->
+				<h3>一言コメント</h3>
+    <p th:text="${role}"></p>
+				<form th:action="@{/add}" th:object="${comment}" method="post">
+					<label for="content">コメント</label>
+					<input type="text" th:field="*{content}">
+					<button>登録</button>
+					<br> 
+					<small style="color: red" th:errors="*{content}"></small>
+				</form>
+				<br>
+				
+				<h3>一覧</h3>
+				<table>
+					<tbody th:each="comment : ${commentwithreplys}" th:object="${comment}">
+						<tr th:if="*{parentCommentId == null}">
+							<td th:text="*{id}"></td>
+							<!-- DataLoaderのusernameがnullだったせいで５００エラーになっていた -->
+							<!-- usernameをそのままcommentのテーブルに格納しているのはどうなの？どうやれば拾える？Viewを使えばいいのかな？ -->
+							<td th:text="*{username}"></td>
+							<!-- もっといい方法があると思う -->
+							<td th:if="*{parentCommentId == null}" th:text="null"></td>
+							<td th:if="*{parentCommentId != null}" th:text="|@ *{parentCommentId}|"></td>
+							<td th:text="*{content}"></td>
+							<td th:text="*{postDateTime}"></td>	
+								
+							<td th:if="${comment.username == currentUser || #authorization.expression('hasRole(''ADMIN'')')}">
+								<a th:href="@{/delete/{id}(id=*{id})}"
+									class="btn btn-danger btn-icon-split">
+									<span class="icon text-white-50">
+									<i class="fas fa-trash"></i>
+									</span>
+									<span class="text">削除</span>
+								</a>
+							</td>
+								
+							<td>
+								<form th:action="@{/reply/{id}(id=*{id})}" th:object=${comment} method="post">
+									<label for="content">返信する</label>
+									<input type="text" th:field="*{content}">
+									<button>登録</button>
+									<br> 
+									<small style="color: red" th:errors="*{content}"></small>
+								</form>
+							</td>
+							
+						</tr>
+
+ 						<tr th:each="reply : *{replys}">
+							<td></td>
+							<td th:text="${reply.id}"></td>
+							<td th:text="${reply.username}"></td>
+							<td th:text="${reply.content}"></td>
+							<td th:text="${reply.postDateTime}"></td>
+							<td th:if="${reply.username == currentUser || #authorization.expression('hasRole(''ADMIN'')')}">
+								<a th:href="@{/delete/{id}(id=${reply.id})}"
+									class="btn btn-danger btn-icon-split">
+									<span class="icon text-white-50">
+									<i class="fas fa-trash"></i>
+									</span>
+									<span class="text">削除</span>
+								</a>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+	
+			</div>
+		</div>
+	</div>
+</div>
+	
+	<th:block th:insert="fragments/base :: scripts"></th:block>
+</body>
+</html>

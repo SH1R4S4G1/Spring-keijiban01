@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+
+  <th:block th:fragment="reply">
+		<tr th:if="${reply.replys != null}">
+			<td></td>
+			<td th:text="${reply.id}"></td>
+			<td th:text="${reply.username}"></td>
+			<td th:text="${reply.content}"></td>
+			<td th:text="${reply.postDateTime}"></td>
+			<td th:if="${reply.replys != null}">
+			<td>
+				<a th:href="@{/delete/{id}(id=${reply.id})}"
+					class="btn btn-danger btn-icon-split">
+					<span class="icon text-white-50">
+					<i class="fas fa-trash"></i>
+					</span>
+					<span class="text">削除</span>
+				</a>
+			</td>
+			<td th:if="${reply.replys != null}">
+				<table>
+					<tbody>
+			 			<tr th:each="reply : ${reply.replys}"></tr>
+						<th:block th:insert="fragments/replyFragment :: reply"></th:block>
+					</tbody>
+				</table>
+	 		</td>
+	 	</tr>
+  </th:block>
+
+</body>
+</html>
